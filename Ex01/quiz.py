@@ -1,10 +1,8 @@
 if __name__ == "__main__":
     import random
-    Q_COUNT = 3
-    q_list = list()
-    q_num = random.randint(0,Q_COUNT-1)
-    
+
     def shutudai():
+        #Q_COUNT = 3
         ans = list() 
         ans.append(("マスオ", "ますお"))
         ans.append(("ワカメ", "わかめ"))
@@ -17,6 +15,8 @@ if __name__ == "__main__":
 
         for i in range(Q_COUNT):
             q_list.append((quiz[i], ans[i]))
+        
+        #q_num = random.randint(0,Q_COUNT-1)
         print(q_list[q_num][0])
     
     def kaito():
@@ -26,5 +26,9 @@ if __name__ == "__main__":
         else:
             print("違います。")
 
+    Q_COUNT = 3
+    q_list = list()
+    q_num = random.randint(0,Q_COUNT-1)
+    #q_num = 0
     shutudai()
     kaito()
