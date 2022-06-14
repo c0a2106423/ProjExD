@@ -17,12 +17,12 @@ if __name__ == "__main__":
 
         for i in range(Q_COUNT):
             q_list.append((quiz[i], ans[i]))
-        Q_num = random.randint(0,Q_COUNT-1)
-        print(q_list[Q_num][0])
+        q_num = random.randint(0,Q_COUNT-1)
+        print(q_list[q_num][0])
     
     def kaito():
         Usr_ans = input("答えを入力 : ")
-        if Usr_ans in q_list[Q_num][1]:
+        if Usr_ans in q_list[q_num][1]:
             print("正解です！")
         else:
             print("違います。")
