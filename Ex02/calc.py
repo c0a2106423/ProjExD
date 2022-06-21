@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.messagebox as tkm
 
+
 #buttonに呼ばれる
 #button_click関数
 def button_click(event):
@@ -12,8 +13,16 @@ def button_click(event):
 def main():
     root = tk.Tk()
     root.title("tk")
-    root.geometry("300x500")
+    root.geometry("300x570")
+    
+    justyfy = tk.Entry(root,
+                       width=10,
+                       font=("Times New Roman",40)
+                      )
+    
+    justyfy.grid(row=0, column=0, columnspan=3)
 
+    start_row=1
     #縦4列
     for i in range(4):
         #横3列
@@ -31,9 +40,9 @@ def main():
                             command=button_click
                             )
             button.bind("<1>", button_click) #左クリック時にbutton_click関数を呼ぶ
-            button.grid()
+            #button.grid()
             #print(num)
-            button.grid(row=i, column=j)
+            button.grid(row=i+start_row, column=j)
 
     root.mainloop()
 
