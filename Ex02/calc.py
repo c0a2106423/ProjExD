@@ -7,20 +7,21 @@ import tkinter.messagebox as tkm
 def button_click(event):
     btn = event.widget  #event引数から、呼んだボタンのインスタンスを特定
     txt = btn["text"]   #特定した buttonのtext をtxtに代入
-    tkm.showinfo(txt, f"[{txt}]ボタンが押されました")
+    #tkm.showinfo(txt, f"[{txt}]ボタンが押されました")
+    entry.insert(tk.END, txt)
 
-#main関数
-def main():
+if __name__ == "__main__":
     root = tk.Tk()
     root.title("tk")
     #root.geometry("300x580")
     
-    justyfy = tk.Entry(root,
+    entry = tk.Entry(root,
+                       justify="right",
                        width=10,
                        font=("Times New Roman",40)
                       )
-    
-    justyfy.grid(row=0, column=0, columnspan=3)
+    entry.bind()
+    entry.grid(row=0, column=0, columnspan=3)
 
     start_row=1
     #縦4列
@@ -45,6 +46,3 @@ def main():
             button.grid(row=i+start_row, column=j)
 
     root.mainloop()
-
-if __name__ == "__main__":
-    main()
