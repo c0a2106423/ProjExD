@@ -19,12 +19,30 @@ def button_click(event):
         result=str(eval(entry.get())*100)+"%"
         entry.delete(0, tk.END)
         entry.insert(tk.END, result)
+    elif txt =="CE":
+        entry.delete(0, tk.END)
+    
+    elif txt =="C":
+        string=entry.get()
+        i = len(string)
+        while True:
+            i-=1
+            if not re.match('(\d+).',string[int('-'+str(i))]):
+                entry.delete(i,i+1)
+                break 
+            else:
+                entry.delete(i,i+1)
+    
+    elif txt =="BG":
+        string=entry.get()
+        i = len(string)-1
+        entry.delete(i,i+1)
     else:
-        if txt=="0" or txt=="00":
+        """if txt=="0" or txt=="00":
             check=entry.get()
             if not re.match('(\d+).',check[-1]):
                 print("SKIP!")
-                return
+                return"""
         entry.insert(tk.END,txt)
 
 def cursor_enter_cell(event):
@@ -70,8 +88,8 @@ if __name__ == "__main__":
     entry.bind()
     entry.grid(row=0, column=0, columnspan=3)
 
-    button_top_list = ("%", "CE", "C", "=")
-    button_left_list = ("÷","*","-","+")
+    button_top_list = ("%", "CE", "BG", "=")
+    button_left_list = ("/","*","-","+")
     start_row=1
     add_row = math.ceil(len(button_top_list)/4)
     button_main_list = [i for i in range(9,-1,-1)]
