@@ -13,7 +13,7 @@ def button_click(event):
 def main():
     root = tk.Tk()
     root.title("tk")
-    root.geometry("300x570")
+    #root.geometry("300x580")
     
     justyfy = tk.Entry(root,
                        width=10,
