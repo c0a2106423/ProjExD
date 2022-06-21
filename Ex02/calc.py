@@ -10,6 +10,7 @@ def button_click(event):
     #tkm.showinfo(txt, f"[{txt}]ボタンが押されました")
     entry.insert(tk.END, txt)
 
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("tk")
@@ -24,6 +25,29 @@ if __name__ == "__main__":
     entry.grid(row=0, column=0, columnspan=3)
 
     start_row=1
+    button_list = [i for i in range(9,-1,-1)]
+    button_list.append("+")
+
+    r = start_row
+    c = 0
+    max_c = 3
+
+    for i in button_list:
+        if c >= max_c:
+            c = 0
+            r +=1
+        button = tk.Button(root,
+                           text=i, 
+                           width=4,
+                           height=2,
+                           font=("Times New Roman", 30),
+                           command=button_click
+                          )
+        button.bind("<1>", button_click) #左クリック時にbutton_click関数を呼ぶ
+        button.grid(row=r, column=c)
+        c+=1
+
+    """
     #縦4列
     for i in range(4):
         #横3列
@@ -44,5 +68,6 @@ if __name__ == "__main__":
             #button.grid()
             #print(num)
             button.grid(row=i+start_row, column=j)
+    """
 
     root.mainloop()
