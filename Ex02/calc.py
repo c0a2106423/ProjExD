@@ -5,13 +5,17 @@ import tkinter.messagebox as tkm
 #buttonに呼ばれる
 #button_click関数
 def button_click(event):
+    print(event)
     btn = event.widget  #event引数から、呼んだボタンのインスタンスを特定
     txt = btn["text"]   #特定した buttonのtext をtxtに代入
     if txt=="=":
         result=eval(entry.get())
-        print(result)
+        #print(result)
+        entry.delete(0, tk.END)
+        entry.insert(tk.END, result)
+
     else:
-        entry.insert(tk.END,txt)
+        entry.insert(tk.END, txt)
 
 if __name__ == "__main__":
     root = tk.Tk()
