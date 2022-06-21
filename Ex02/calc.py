@@ -13,6 +13,16 @@ def button_click(event):
     else:
         entry.insert(tk.END,txt)
 
+def cursor_enter_cell(event):
+    cell = event.widget
+    cell["bg"] = "red"
+    cell["fg"] = "white"
+
+def cursor_leave_cell(event):
+    cell = event.widget
+    cell["bg"] = "white"
+    cell["fg"] = "black"
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("tk")
@@ -47,6 +57,8 @@ if __name__ == "__main__":
                            command=button_click
                           )
         button.bind("<1>", button_click) #左クリック時にbutton_click関数を呼ぶ
+        button.bind("<Enter>", cursor_enter_cell, "+")
+        button.bind("<Leave>", cursor_leave_cell, "+")
         button.grid(row=r, column=c)
         c+=1
 
