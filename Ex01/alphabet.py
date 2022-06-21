@@ -1,11 +1,12 @@
-from ast import arg
-from pdb import post_mortem
 import string
 import random
-from this import s
+import datetime
+#from this import s
+
 def main():
-    global string_len, missing_len
-    show_text, droped_text = list(), dict()
+    global string_len, missing_len, retry_count
+    retry_count = 2
+    show_text, droped_text ,droped_pos= list(), list(), list()
     string_len = int(set_int("対象文字数を入力 : "))
     missing_len = int(set_int("欠損文字数を入力 : "))
     origin_text = random.choices(string.ascii_uppercase, k=string_len)
@@ -14,13 +15,15 @@ def main():
     droped_text = random.sample(origin_text, k=missing_len)
     for i in range(len(origin_text)):
         show_text.append(origin_text[i])
-    
-    
+    #for i,j in zip(droped_text, droped_pos):
+
     print("対象文字 : \n"+"".join(origin_text))
     print("欠損文字 : \n"+"".join(droped_text))
     for i in range(missing_len):
         show_text.remove(droped_text[i])
     print("表示文字 : \n"+"".join(show_text))
+    
+    #droped_text = set(droped_text)
     #print("".join(origin_text))
     #print("".join(droped_text))
     #print("".join(show_text))
@@ -28,11 +31,16 @@ def main():
     if ans == missing_len:
         print("正解です。それでは、具体的に欠損文字を1つずつ入力してください")
         for i in range(missing_len):
-            ans = set_str(str(i+1)+"つ目の文字を入力してください")
-            if ans != droped_text[i]:
+            ans = set_str(str(i+1)+"つ目の文字を入力してください : ")
+            if ans != droped_text:
                 print("不正解です。またチャレンジしてください")
                 break
-        print("全問正解です。おめでとうございます！")
+            #else:
+            #    droped_text.remove(ans)
+        else:
+            print("全問正解です。おめでとうございます！")
+    else:
+        print("不正解です。")
 
 def set_arg(text):
     try:
