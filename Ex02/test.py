@@ -32,7 +32,7 @@ label.grid(row=0,column=0)
 entry = tk.Entry(width=30)
 entry.insert(tk.END, "fugofugo")
 entry.grid(row=2,column=0)
-button = tk.Button(root, text="押すな", command=button_click)
+button = tk.Button(root, text="押すな")
 button.bind("<1>", button_click)
 button.grid(row=3,column=0)
 
