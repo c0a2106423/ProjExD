@@ -8,7 +8,7 @@ def button_click(event):
 
 def main():
     root = tk.Tk()
-    root.title("電卓")
+    root.title("tk")
     root.geometry("300x500")
 
     for i in range(4):
@@ -18,6 +18,8 @@ def main():
                 break
             button = tk.Button(root,
                             text=num, 
+                            width=4,
+                            height=2,
                             font=("Times New Roman", 30),
                             command=button_click
                             )
