@@ -7,9 +7,11 @@ import tkinter.messagebox as tkm
 def button_click(event):
     btn = event.widget  #event引数から、呼んだボタンのインスタンスを特定
     txt = btn["text"]   #特定した buttonのtext をtxtに代入
-    #tkm.showinfo(txt, f"[{txt}]ボタンが押されました")
-    entry.insert(tk.END, txt)
-
+    #if txt=="=":
+    #    result=eval(entry.get(tk.END))
+    #    print(result)
+    #else:
+    entry.insert(tk.END,txt)
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -27,6 +29,7 @@ if __name__ == "__main__":
     start_row=1
     button_list = [i for i in range(9,-1,-1)]
     button_list.append("+")
+    #button_list.append("=")
 
     r = start_row
     c = 0
@@ -37,7 +40,7 @@ if __name__ == "__main__":
             c = 0
             r +=1
         button = tk.Button(root,
-                           text=i, 
+                           text=str(i), 
                            width=4,
                            height=2,
                            font=("Times New Roman", 30),
