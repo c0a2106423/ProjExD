@@ -1,21 +1,24 @@
 import tkinter as tk
 import tkinter.messagebox as tkm
+from turtle import width
 import maze_maker
 
 def main():
     global root, canvas, koukaton, cx, cy, key
+    width = 1500
+    height = 900
     key = ""
     root = tk.Tk()
     root.title("迷えるこうかとん")
     canvas = tk.Canvas(
                        root,
-                       width=1500,
-                       height=900,
+                       width=width,
+                       height=height,
                        bg="black"
                       )
     canvas.pack()
 
-    map = maze_maker.make_maze(15, 9)
+    map = maze_maker.make_maze(width//100, height//100)
     maze_maker.show_maze(canvas, map)
 
     koukaton = tk.PhotoImage(file = "fig/5.png")
