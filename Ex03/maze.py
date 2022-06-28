@@ -1,9 +1,11 @@
+from itertools import groupby
 import re
 import tkinter as tk
 import tkinter.messagebox as tkm
+from tokenize import group
 
 def main():
-    global root, koukaton, cx, cy, key
+    global root, canvas, koukaton, cx, cy, key
     key = ""
     root = tk.Tk()
     root.title("迷えるこうかとん")
@@ -21,21 +23,33 @@ def main():
 
     root.bind("<KeyPress>", key_down)
     root.bind("<KeyRelease>", key_up)
-    root.mainloop()    
+    root.after(10, main_proc)
+    root.mainloop()
 
 def key_down(event):
     global key
     key = event.keysym
-    print(key)
+    #print(key)
     return
 
 def key_up(event):
     global key
     key = ""
-    print(key)
+    #print(key)
     return
 
-
+def main_proc():
+    global canvas, cx, cy, key
+    if key == "Up":
+        cy -= 20
+    elif key == "Down":
+        cy += 20
+    elif key == "Left":
+        cx -= 20
+    elif key == "Right":
+        cx += 20
+    canvas.coords("koukaton", cx, cy)
+    root.after(100, main_proc)
 
 if __name__ == "__main__":
     main()
