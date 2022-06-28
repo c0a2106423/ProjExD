@@ -47,15 +47,23 @@ def main_proc():
     global canvas, mx, my, cx, cy, key, map
     if key == "Up":
         my -= 1
+        tag = [0, 1]
     if key == "Down":
         my += 1
+        tag = [0, -1]
     if key == "Left":
         mx -= 1
+        tag = [1, 0]
     if key == "Right":
         mx += 1
+        tag = [-1, 0]
     cx = mx*100 + 50
     cy = my*100 + 50
-    canvas.coords("koukaton", cx, cy)
+    if not map[my][mx]:
+        canvas.coords("koukaton", cx, cy)
+    else:
+        mx += tag[0]
+        my += tag[1]
     root.after(100, main_proc)
 
 if __name__ == "__main__":
