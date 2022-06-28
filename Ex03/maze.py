@@ -4,7 +4,7 @@ from turtle import width
 import maze_maker
 
 def main():
-    global root, canvas, koukaton, cx, cy, key
+    global root, canvas, koukaton, mx, my, key, map
     width = 1500
     height = 900
     key = ""
@@ -22,7 +22,8 @@ def main():
     maze_maker.show_maze(canvas, map)
 
     koukaton = tk.PhotoImage(file = "fig/5.png")
-    cx, cy = 300, 400
+    mx, my = 1,1
+    cx, cy = mx*100+50, my*100+50
     canvas.create_image(cx, cy, image=koukaton, tag="koukaton")
 
     root.bind("<KeyPress>", key_down)
@@ -43,15 +44,17 @@ def key_up(event):
     return
 
 def main_proc():
-    global canvas, cx, cy, key
+    global canvas, mx, my, cx, cy, key, map
     if key == "Up":
-        cy -= 20
+        my -= 1
     if key == "Down":
-        cy += 20
+        my += 1
     if key == "Left":
-        cx -= 20
+        mx -= 1
     if key == "Right":
-        cx += 20
+        mx += 1
+    cx = mx*100 + 50
+    cy = my*100 + 50
     canvas.coords("koukaton", cx, cy)
     root.after(100, main_proc)
 
