@@ -5,10 +5,16 @@ def main():
     global root, koukaton, cx, cy
     root = tk.Tk()
     root.title("迷えるこうかとん")
-    root.geometry("1500x900")
-    koukaton = tk.PhotoImage(file="5.png")
-    cx, cy = 300, 400
-    tk.Canvas.create_image(cx, cy, image=koukaton, tag="koukaton")
+    canvas = tk.Canvas(
+                       root,
+                       width=1500,
+                       height=900,
+                       bg="black"
+                      )
+    #koukaton = tk.PhotoImage(file="fig/5.png")
+    #cx, cy = 300, 400
+    #canvas.create_image(cx, cy, image=koukaton, tag="koukaton")
+    canvas.pack()
     root.mainloop()    
 
 if __name__ == "__main__":
