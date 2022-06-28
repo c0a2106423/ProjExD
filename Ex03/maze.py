@@ -1,8 +1,6 @@
-from itertools import groupby
-import re
 import tkinter as tk
 import tkinter.messagebox as tkm
-from tokenize import group
+import maze_maker
 
 def main():
     global root, canvas, koukaton, cx, cy, key
@@ -16,6 +14,9 @@ def main():
                        bg="black"
                       )
     canvas.pack()
+
+    map = maze_maker.make_maze(15, 9)
+    maze_maker.show_maze(canvas, map)
 
     koukaton = tk.PhotoImage(file = "fig/5.png")
     cx, cy = 300, 400
@@ -42,11 +43,11 @@ def main_proc():
     global canvas, cx, cy, key
     if key == "Up":
         cy -= 20
-    elif key == "Down":
+    if key == "Down":
         cy += 20
-    elif key == "Left":
+    if key == "Left":
         cx -= 20
-    elif key == "Right":
+    if key == "Right":
         cx += 20
     canvas.coords("koukaton", cx, cy)
     root.after(100, main_proc)
