@@ -89,26 +89,13 @@ def goal(): #ゴールマスに付いたら
 
 def main_proc():
     global canvas, mx, my, cx, cy, key, map, goal_pos
-    if key == "Up":
-        my -= 1
-        tag = [0, 1]
-    if key == "Down":
-        my += 1
-        tag = [0, -1]
-    if key == "Left":
-        mx -= 1
-        tag = [1, 0]
-    if key == "Right":
-        mx += 1
-        tag = [-1, 0]
+    if key == "Up"    and map[my-1][mx]==0: my-=1
+    if key == "Down"  and map[my+1][mx]==0: my+=1
+    if key == "Left"  and map[my][mx-1]==0: mx-=1
+    if key == "Right" and map[my][mx+1]==0: mx+=1
     cx = mx*100 + 50
     cy = my*100 + 50
-    if not map[my][mx]:
-        canvas.coords("koukaton", cx, cy)
-    else:
-        mx += tag[0]
-        my += tag[1]
-    #print(mx ,my)
+    canvas.coords("koukaton", cx, cy)
     if (mx, my) == goal_pos: #現在座標がゴール座標と同一ならば
         goal() #ゴール時の処理をする関数を呼ぶ
     root.after(100, main_proc)
