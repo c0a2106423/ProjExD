@@ -11,10 +11,12 @@ def main():
                        height=900,
                        bg="black"
                       )
-    #koukaton = tk.PhotoImage(file="fig/5.png")
-    #cx, cy = 300, 400
-    #canvas.create_image(cx, cy, image=koukaton, tag="koukaton")
     canvas.pack()
+
+    koukaton = tk.PhotoImage(file = "fig/5.png")
+    cx, cy = 300, 400
+    canvas.create_image(cx, cy, image=koukaton, tag="koukaton")
+
     root.mainloop()    
 
 if __name__ == "__main__":
