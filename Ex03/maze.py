@@ -1,10 +1,11 @@
+from itertools import count
+import random
 import tkinter as tk
 import tkinter.messagebox as tkm
-from turtle import width
 import maze_maker
 
 def main():
-    global root, canvas, koukaton, mx, my, key, map
+    global root, canvas, koukaton, mx, my, cx, cy, key, map
     width = 1500
     height = 900
     key = ""
@@ -20,6 +21,8 @@ def main():
 
     map = maze_maker.make_maze(width//100, height//100)
     maze_maker.show_maze(canvas, map)
+
+    goal_p = goal_p()
 
     koukaton = tk.PhotoImage(file = "fig/5.png")
     mx, my = 1,1
@@ -42,6 +45,38 @@ def key_up(event):
     key = ""
     #print(key)
     return
+
+def goal_p():
+    global map, canvas
+    height = len(map)
+    #width = len(map[-2])
+    end_p=[]
+    for i in range(0, height):
+        #print(map[i][-2])
+        if not map[i][-2]:
+            if map[i][-3] + map[i-1][-2] + map[i+1][-2] == 2:
+                end_p.append(i)
+    #print(end_p)
+    if end_p:
+        i = random.randint(0,len(end_p))
+        x = end_p[i]
+    else:
+        for i in range(len(map)):
+            if not map[i][-2]:
+                x = i
+        else:
+            for i in range(len(map)):
+                if not map[i][-3]:
+                    x = i
+    y = len(map[-2])-2
+    #print(x, y)
+    canvas.create_rectangle(y*100, x*100, y*100+100, x*100+100, 
+                            fill="red")
+    return(x, y)
+
+def goal():
+    global root
+    root.destroy
 
 def main_proc():
     global canvas, mx, my, cx, cy, key, map
