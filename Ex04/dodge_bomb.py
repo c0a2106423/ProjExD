@@ -27,6 +27,7 @@ class game():
                 elif event.type == pg.KEYDOWN:
                     pass
             pg.display.update()
+            clock.tick(1000)
 
         tori_img = pg.image.load("fig/6.png")
         tori_img = pg.transform.rotozoom(tori_img, 0, 2.0)
