@@ -19,7 +19,9 @@ class game():
 
         pg.display.set_caption("逃げろ！こうかとん")
         screen = self.setScreen(height, width)
-        
+        tori_img = pg.image.load("fig/6.png")
+        tori_img = pg.transform.rotozoom(tori_img, 0, 2.0)
+        tori01 = obj(screen, tori_img, 900, 400)
 
         while True:
             for event in pg.event.get():
@@ -29,9 +31,6 @@ class game():
             pg.display.update()
             clock.tick(1000)
 
-        tori_img = pg.image.load("fig/6.png")
-        tori_img = pg.transform.rotozoom(tori_img, 0, 2.0)
-        #tori01 = obj(screen, tori_img, 600, 400)
     
     def setScreen(self, height, width):
         screen = pg.display.set_mode((height, width))
