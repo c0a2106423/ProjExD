@@ -86,12 +86,12 @@ class Bomb():
         self.y = y
         self.r = r
         self.vx, self.vy = 1, 1
-        if self.x == None:
-            self.x, self.y = rnd(1,w_height-2), rnd(1,w_width-2)
-        self.image = pg.Surface((2*self.r,2*self.r))
-        pg.draw.circle(self.image, (255, 0, 0), (self.r, self.r), self.r)
-        self.image.set_colorkey((0, 0, 0))
-        self.draw()
+        if self.x == None or self.x == None: #x,y座標のいずれかがまだ設定されていない場合
+            self.x, self.y = rnd(1,w_height-2), rnd(1,w_width-2) #randint でランダムに設定
+        self.image = pg.Surface((2*self.r,2*self.r)) # 円を描写するために直径x直径のsurfaceを用意
+        pg.draw.circle(self.image, (255, 0, 0), (self.r, self.r), self.r) #赤色の円を書き込み
+        self.image.set_colorkey((0, 0, 0)) #黒色を透過設定
+        self.draw() #描写処理
 
     def draw(self): # 爆弾の描写
         self.rect = self.screen[0].blit(self.image, (self.x, self.y))
