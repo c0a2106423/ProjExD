@@ -41,11 +41,13 @@ class game():
                 diff[0] -= 1
             if key_dict[pg.K_RIGHT]==True:
                 diff[0] += 1
-            if diff[0] != 0 or diff[1] != 0: 
+            #if diff[0] != 0 or diff[1] != 0: 
                 #tori01.move(diff)
-                self. draw(screen, r, height, width, diff)
-            else:
-                self.bomb.move()
+                #self.draw(screen, r, height, width, diff)
+            #else:
+                #self.setScreen(height, width)
+                #self.bomb.move()
+            self.draw(screen, r, height, width, diff)
             screen[0].blit(screen[0], screen[1])
             pg.display.update()
             clock.tick(1000)
@@ -62,18 +64,18 @@ class game():
     def draw(self, screen, r, height, width, diff):
         
         self.setScreen(height, width)
-        self.bomb.draw()
+        self.bomb.move()
         self.tori01.move(diff)
 
 class Bomb():
     def __init__(self, screen, r, w_height, w_width, x, y):
         self.screen = screen
-        self.bomb_x = x
-        self.bomb_y = y
+        self.x = x
+        self.y = y
         self.r = r
-        self.vx, self.vy = 0, 0
-        if self.bomb_x == None:
-            self.bomb_x, self.bomb_y = rnd(0,w_height), rnd(0,w_width)
+        self.vx, self.vy = 1, 1
+        if self.x == None:
+            self.x, self.y = rnd(1,w_height-2), rnd(1,w_width-2)
         self.image = pg.Surface((2*self.r,2*self.r))
         pg.draw.circle(self.image, (255, 0, 0), (self.r, self.r), self.r)
         self.image.set_colorkey((0, 0, 0))
@@ -83,17 +85,37 @@ class Bomb():
         #self.image = pg.Surface((2*self.r,2*self.r))
         #pg.draw.circle(self.image, (255, 0, 0), (self.r, self.r), self.r)
         #self.image.set_colorkey((0, 0, 0))
-        self.screen[0].blit(self.image, (self.bomb_x, self.bomb_y))
+        self.screen[0].blit(self.image, (self.x, self.y))
 
     def move(self):
-        self.vx+=1
-        self.vy+=1
         #self.image = pg.Surface((2*self.r,2*self.r))
         #pg.draw.circle(self.image, (255, 0, 0), (self.r, self.r), self.r)
         #self.image.set_colorkey((0, 0, 0))
-        self.bomb_x += self.vx
-        self.bomb_y += self.vy
-        self.draw() 
+        self.x += self.vx
+        self.y += self.vy
+        self.bound()
+        #print(self.x, self.y)
+        self.draw()
+    
+    def bound(self):
+        if 0 < self.x < width and 0 < self.y < height:
+            pass
+        elif self.x > width: 
+            self.x = width-1
+            self.vx *= -1
+            print(1)
+        elif self.x < 0: 
+            self.x = 0
+            self.vx *= -1
+            print(2)
+        elif self.y > height: 
+            self.y = height-1
+            self.vy *= -1
+            print(3)
+        elif self.y < 0: 
+            self.y = 0
+            self.vy *= -1
+            print(4)
     
 class obj():
     def __init__(self, screen, img, x=0, y=0) -> None:
@@ -112,10 +134,16 @@ class obj():
         self.y += diff[1]
         #print(self.x, self.y)
         self.rect.center = (self.x, self.y)
+        self.chk_pos()
         self.screen[0].blit(self.img, self.rect)
         #print(id(self.screen))
         #pg.display.update()
 
+    def chk_pos(self):
+        if self.x > width: self.x = width
+        elif self.x < 0: self.x = 0
+        elif self.y > height: self.y = height
+        elif self.y < 0: self.y = 0
     """def move(self, x_diff, y_diff):
         self.x += x_diff
         self.y += y_diff
