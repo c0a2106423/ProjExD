@@ -23,12 +23,10 @@ class game():
         screen = self.setScreen(height, width)
         tori_img = pg.image.load("fig/6.png")
         tori_img = pg.transform.rotozoom(tori_img, 0, 2.0)
-        #print(id(screen))
         self.bomb = Bomb(screen, r, height, width, self.bomb_x, self.bomb_y)
         self.tori01=obj(screen, tori_img, 900, 400)
 
         while True:
-            #clock.tick(0.3)
             for event in pg.event.get():
                 if event.type == pg.QUIT: return
             key_dict = pg.key.get_pressed()
@@ -41,14 +39,11 @@ class game():
                 diff[0] -= 1
             if key_dict[pg.K_RIGHT]==True:
                 diff[0] += 1
-            #if diff[0] != 0 or diff[1] != 0: 
-                #tori01.move(diff)
-                #self.draw(screen, r, height, width, diff)
-            #else:
-                #self.setScreen(height, width)
-                #self.bomb.move()
             self.draw(screen, r, height, width, diff)
             screen[0].blit(screen[0], screen[1])
+            print(self.tori01.rect.center, self.bomb.rect.center)
+            if self.tori01.rect.colliderect(self.bomb.rect):
+                return
             pg.display.update()
             clock.tick(1000)
 
@@ -82,20 +77,16 @@ class Bomb():
         self.draw()
 
     def draw(self):
-        #self.image = pg.Surface((2*self.r,2*self.r))
-        #pg.draw.circle(self.image, (255, 0, 0), (self.r, self.r), self.r)
-        #self.image.set_colorkey((0, 0, 0))
-        self.screen[0].blit(self.image, (self.x, self.y))
+        self.rect = self.screen[0].blit(self.image, (self.x, self.y))
 
     def move(self):
-        #self.image = pg.Surface((2*self.r,2*self.r))
-        #pg.draw.circle(self.image, (255, 0, 0), (self.r, self.r), self.r)
-        #self.image.set_colorkey((0, 0, 0))
         self.x += self.vx
         self.y += self.vy
         self.bound()
-        #print(self.x, self.y)
         self.draw()
+    
+    def get_pos(self):
+        return self.x, self.y
     
     def bound(self):
         if 0 < self.x < width and 0 < self.y < height:
@@ -103,19 +94,19 @@ class Bomb():
         elif self.x > width: 
             self.x = width-1
             self.vx *= -1
-            print(1)
+            #print(1)
         elif self.x < 0: 
             self.x = 0
             self.vx *= -1
-            print(2)
+            #print(2)
         elif self.y > height: 
             self.y = height-1
             self.vy *= -1
-            print(3)
+            #print(3)
         elif self.y < 0: 
             self.y = 0
             self.vy *= -1
-            print(4)
+            #print(4)
     
 class obj():
     def __init__(self, screen, img, x=0, y=0) -> None:
@@ -126,30 +117,19 @@ class obj():
         self.rect = self.img.get_rect()
         self.rect.center = self.x, self.y
         self.screen[0].blit(img, self.rect)
-        #print(id(self.screen),id(screen))
-        #pg.display.update()
     
     def move(self, diff=[0,0]):
         self.x += diff[0]
         self.y += diff[1]
-        #print(self.x, self.y)
         self.rect.center = (self.x, self.y)
         self.chk_pos()
         self.screen[0].blit(self.img, self.rect)
-        #print(id(self.screen))
-        #pg.display.update()
 
     def chk_pos(self):
         if self.x > width: self.x = width
         elif self.x < 0: self.x = 0
         elif self.y > height: self.y = height
         elif self.y < 0: self.y = 0
-    """def move(self, x_diff, y_diff):
-        self.x += x_diff
-        self.y += y_diff
-        rect.center = self.x, self.y
-        screen.blit(self.img, rect)
-        pg.display.update()"""
 
 if __name__ == "__main__":
     game()
