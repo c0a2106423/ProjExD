@@ -35,19 +35,20 @@ class Game():
 
         while True: #繰り返し部
             for event in pg.event.get(): #爆弾追加・終了処理など、押される度に1回だけ行う処理の判定
-                if event.type == pg.QUIT: return
+                if event.type == pg.QUIT: 
+                    return
                 if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                     self.bomb.append(Bomb(screen, r, height, width, self.bomb_x, self.bomb_y))
             #鳥を動かすためのキー判定
             key_dict = pg.key.get_pressed()
             diff = [0, 0]
-            if key_dict[pg.K_UP]==True:
+            if key_dict[pg.K_UP]:
                 diff[1] -= 1
-            if key_dict[pg.K_DOWN]==True:
+            if key_dict[pg.K_DOWN]:
                 diff[1] += 1
-            if key_dict[pg.K_LEFT]==True:
+            if key_dict[pg.K_LEFT]:
                 diff[0] -= 1
-            if key_dict[pg.K_RIGHT]==True:
+            if key_dict[pg.K_RIGHT]:
                 diff[0] += 1
             self.draw(height, width, diff)
             screen[0].blit(screen[0], screen[1])
