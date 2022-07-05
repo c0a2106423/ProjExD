@@ -1,7 +1,7 @@
 import pygame as pg
 import sys
 from random import randint as rnd
-class game():
+class Game():
     def __init__(self) -> None:
         pg.init()
         self.main()
@@ -20,7 +20,7 @@ class game():
 
         #ウィンドウの初期設定
         pg.display.set_caption("逃げろ！こうかとん")
-        screen = self.setScreen(height, width)
+        screen = self.set_screen(height, width)
         #鳥の画像を読み込み
         tori_img = pg.image.load("fig/6.png")
         tori_img = pg.transform.rotozoom(tori_img, 0, 2.0)
@@ -31,7 +31,7 @@ class game():
         txt_rect.center = width/2,height/2
         #1個目の爆弾を設定/鳥を設定
         self.bomb.append(Bomb(screen, r, height, width, self.bomb_x, self.bomb_y))
-        self.tori01=obj(screen, tori_img, 900, 400)
+        self.tori01=Obj(screen, tori_img, 900, 400)
 
         while True: #繰り返し部
             for event in pg.event.get(): #爆弾追加・終了処理など、押される度に1回だけ行う処理の判定
@@ -63,7 +63,7 @@ class game():
             pg.display.update()
             clock.tick(1000)
 
-    def setScreen(self, height, width): #背景の設定・描写
+    def set_screen(self, height, width): #背景の設定・描写
         screen_sfc = pg.display.set_mode((width, height))
         screen_rct = screen_sfc.get_rect()
         if self.bg_img == None:
@@ -73,7 +73,7 @@ class game():
         return screen_sfc, screen_rct
 
     def draw(self, height, width, diff): #繰り返しごとの描写
-        self.setScreen(height, width)
+        self.set_screen(height, width)
         for i in range(len(self.bomb)):
             self.bomb[i].move()
         self.tori01.move(diff)
@@ -101,8 +101,8 @@ class Bomb():
         self.bound()
         self.draw()
     
-    def get_pos(self): #実装しようとした機能の残骸
-        return self.x, self.y
+    # def get_pos(self): #実装しようとした機能の残骸
+    #     return self.x, self.y
     
     def bound(self): #枠外判定
         if 0 < self.x < width and 0 < self.y < height:
@@ -124,7 +124,7 @@ class Bomb():
             self.vy *= -1
             #print(4)
     
-class obj(): #オブジェクト用のクラス。Bombクラスはこのサブクラスになる予定でした。
+class Obj(): #オブジェクト用のクラス。Bombクラスはこのサブクラスになる予定でした。
     def __init__(self, screen, img, x=0, y=0) -> None: #初期化・初回描写
         self.x = x
         self.y = y
@@ -148,5 +148,5 @@ class obj(): #オブジェクト用のクラス。Bombクラスはこのサブ�
         elif self.y < 0: self.y = 0
 
 if __name__ == "__main__":
-    game()
+    Game()
 
