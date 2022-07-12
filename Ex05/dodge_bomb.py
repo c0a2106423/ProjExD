@@ -95,7 +95,7 @@ def main():
         bomb.update(scr)
         if bird.rct.colliderect(bomb.rct): 
             return 
-        #pg.display.update()
+        pg.display.update()
         clock.tick(1000)
 
 
@@ -109,7 +109,6 @@ def check_bound(rct, scr_rct):
     if rct.left < scr_rct.left or scr_rct.right  < rct.right : yoko = -1 # 領域外
     if rct.top  < scr_rct.top  or scr_rct.bottom < rct.bottom: tate = -1 # 領域外
     return yoko, tate
-
 
 
 if __name__ == "__main__":
