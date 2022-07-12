@@ -1,6 +1,3 @@
-from email.mime import base
-from tkinter.messagebox import NO
-from turtle import right
 import pygame as pg
 import sys
 import random
@@ -70,7 +67,7 @@ class Bomb:
         self.blit(base_obj)
 
 class AdvancedBomb(Bomb):#Bombを継承したクラス
-    def __init__(self, color: tuple, size: int, speed: tuple, base_obj: Screen, live_time: int = random.randint(500, 500)) -> None:
+    def __init__(self, color: tuple, size: int, speed: tuple, base_obj: Screen, live_time: int = random.randint(500, 5000)) -> None:
         super().__init__(color, size, speed, base_obj)
         self.live_time = live_time #生存時間の概念を追加
         self.death_monitor = False
