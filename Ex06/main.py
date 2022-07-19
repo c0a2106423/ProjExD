@@ -2,7 +2,7 @@ import pygame as pg
 import random
 import sys
 import maze_maker
-import math
+stage_count = 0
 
 class Screen:
     def __init__(self, title: str, wh: tuple, image: str) :
@@ -45,7 +45,7 @@ class Screen:
                     self.s_tile_lst.append(Block(self.s_color, self.x_size, self.y_size, (j, i), self.sfc)) 
                 elif self.map_ary[i][j] == 3: #ゴールなら
                     self.s_tile_lst.append(Block(self.g_color, self.x_size, self.y_size, (j, i), self.sfc)) 
-                    print("fiz")
+                    #print("fiz")
                     
         pg.display.update()#初期描写
 
@@ -74,7 +74,7 @@ class Screen:
                 if not self.map_ary[i][-2]:
                     y = i
         x = len(self.map_ary[-2])-2 #x座標を設定
-        print(x, y)
+        #print(x, y)
         return(x, y) #設定した座標を返す
 
 
@@ -131,44 +131,95 @@ class Enemy(Bird):
     def __init__(self, image: str, zoom_rate: float, xy: tuple) -> None:
         super().__init__(image, zoom_rate, xy)
         self.now_dir = 0
+        self.count = 0
     
     def update(self, base_obj: Screen, map_ary):
+        self.count += 1
+        if self.count > 20:
+            self.dx = base_obj.x_size
+            self.dy = base_obj.y_size
+            self.now_dir, x, y = self.search_left(map_ary)
+            self.rct.center = x*self.dx+self.dx//2, y*self.dy+self.dy//2
+            
+            if check_bound(self.rct, base_obj.rct) != (1, 1): # 領域外だったら
+                if self.now_dir == 1: self.rct.centery += self.dy
+                if self.now_dir == 3: self.rct.centery -= self.dy
+                if self.now_dir == 2: self.rct.centerx += self.dx
+                if self.now_dir == 0: self.rct.centerx -= self.dx
+            self.count = 0
+        self.blit(base_obj)
+        
+        
+        #print(self.rct.center)
         pass
 
     def search_left(self, map_ary):
+        print("")
+        for i in map_ary:
+            print(i)
         dif = ((0,1), (1,0), (0,-1),(-1,0))
         for i in range(4):
             dir = (self.now_dir+3+i)%4
-            x = self.rct.centerx + dif[dir][0]*self.dx
-            y = self.rct.centery + dir[dir][1]*self.dy
-            if map_ary[x][y] == 0 or map_ary[x][y] == 3:
+            x = (self.rct.centerx//self.dx + dif[dir][0])
+            y = (self.rct.centery//self.dy + dif[dir][1])
+            print(x,y)
+            if map_ary[y][x] == 0:
+                print("d")
                 break
+            else:
+                print("f")
+        #print(dir, x, y)
         return dir,x,y
 
 
+class Text:
+    def __init__(self, content, base_obj:Screen, x_size, y_size) -> None:
+        font = pg.font.Font(None, 60)
+        self.sfc = font.render(content, True, (255,0,0))
+        self.rct = self.sfc.get_rect()
+        self.rct.center = x_size//2, y_size//2
+        base_obj.sfc.blit(self.sfc,self.rct) #文言を表示
+    
+    def blit(self, base_obj:Screen):
+        base_obj.sfc.blit(self.sfc, self.rct)
+
 class main: # mainをクラスに。
     def __init__(self) -> None: #main の main。Javaでいうpublic static void main(String args[]){}なとこ。
+        global stage_count
+        stage_count += 1
         clock = pg.time.Clock()
+        height = 900
+        width = 1500
 
-        scr = Screen("戦え！こうかとん", (1500, 900), "fig/pg_bg.jpg")
+        scr = Screen("戦え！こうかとん", (width, height), "fig/pg_bg.jpg")
         bird = Bird("fig/6.png", 1.5, (scr.x_size+scr.y_size//2, scr.y_size+scr.y_size//2))
-        enemy = Enemy("fig/s_exp.png", 1.5, (50,50))
+        enemy = Enemy("fig/s_exp.png", 0.8, (scr.s_tile_lst[1].rct.centerx, scr.s_tile_lst[1].rct.centery))
+        text = Text(str(stage_count), scr, scr.x_size, scr.y_size)
         
         while True:
+            #enemy.blit(scr)
             bird.blit(scr)
+            text.blit(scr)
             for event in pg.event.get():
                 if event.type == pg.QUIT: #右上のXが押されたら
                     return                  #mainから抜けてプログラムを終了させる
                 if event.type == pg.KEYDOWN: #キーが押下されたならば、
                     #方向キーならば、
                     if event.key == pg.K_DOWN or event.key == pg.K_UP or event.key == pg.K_LEFT or event.key==pg.K_RIGHT:
-                        bird.update(scr, scr.map_ary) #鳥を移動させ、描写しなおす
+                        bird.update(scr) #鳥を移動させ、描写しなおす
             enemy.update(scr, scr.map_ary)
             if bird.rct.colliderect(scr.s_tile_lst[1].rct):
                 main()
                 return
+            if bird.rct.colliderect(enemy.rct):
+                pg.display.update()
+                enemy.update(scr, scr.map_ary)
+                bird.blit(scr)
+                text.blit(scr)
+                self.game_over(scr)
+                return
             pg.display.update()
-            clock.tick(1000)
+            clock.tick(100)
             scr.blit()
 
     def game_over(self, base_obj: Screen): #接触時に実行
