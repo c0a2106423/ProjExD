@@ -79,8 +79,7 @@ class Bird:
             self.rct.centerx -= base_obj.x_size
         if key_states[pg.K_RIGHT] : 
             self.rct.centerx += base_obj.x_size
-        
-        if check_bound(self.rct, base_obj.rct) != (1, 1): # 領域外だったら
+        if collision_detect(self.rct, base_obj.block_lst) or check_bound(self.rct, base_obj.rct) != (1, 1): # 領域外だったら
             if key_states[pg.K_UP]    == True: self.rct.centery += base_obj.y_size
             if key_states[pg.K_DOWN]  == True: self.rct.centery -= base_obj.y_size
             if key_states[pg.K_LEFT]  == True: self.rct.centerx += base_obj.x_size
@@ -129,8 +128,16 @@ class main: # mainをクラスに。
                 if event.type == pg.QUIT:
                     return
 
-
-
+def collision_detect(rct, block_rct:list):
+    bool = False
+    for b in block_rct:
+        if rct.colliderect(b.rct) == True:
+            print("True")
+            bool = True
+            break
+        else :
+            print("False")
+    return bool
 # 練習7
 def check_bound(rct, scr_rct):
     '''
