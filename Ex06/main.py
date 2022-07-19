@@ -4,6 +4,7 @@ import sys
 import maze_maker
 stage_count = 0
 
+
 class Screen:
     def __init__(self, title: str, wh: tuple, image: str) :
         pg.display.set_caption(title)
@@ -126,7 +127,8 @@ class Bird:
             if key_states[pg.K_LEFT]  == True: self.rct.centerx += self.dx
             if key_states[pg.K_RIGHT] == True: self.rct.centerx -= self.dx
         self.blit(base_obj)
-        
+
+
 class Enemy(Bird):
     def __init__(self, image: str, zoom_rate: float, xy: tuple) -> None:
         super().__init__(image, zoom_rate, xy)
@@ -148,8 +150,7 @@ class Enemy(Bird):
                 if self.now_dir == 0: self.rct.centerx -= self.dx
             self.count = 0
         self.blit(base_obj)
-        
-        
+
         #print(self.rct.center)
         pass
 
@@ -182,6 +183,7 @@ class Text:
     
     def blit(self, base_obj:Screen):
         base_obj.sfc.blit(self.sfc, self.rct)
+
 
 class main: # mainをクラスに。
     def __init__(self) -> None: #main の main。Javaでいうpublic static void main(String args[]){}なとこ。
