@@ -23,7 +23,7 @@ class Screen:
         self.map_ary = maze_maker.make_maze(x, y)
         self.x_size = round(wh[0]/x)
         self.y_size = round(wh[1]/y)
-        self.w_color = (255, 255, 255)
+        #self.w_color = (255, 255, 255)
         self.b_color = (  0,   0,   0)
         self.block_lst = list()
         for i in self.map_ary:
@@ -72,19 +72,19 @@ class Bird:
     def update(self, base_obj: Screen, map_ary):
         key_states = pg.key.get_pressed() # 辞書
         if key_states[pg.K_UP] : 
-            self.rct.centery -= 1
+            self.rct.centery -= base_obj.y_size
         if key_states[pg.K_DOWN] : 
-            self.rct.centery += 1
+            self.rct.centery += base_obj.y_size
         if key_states[pg.K_LEFT] : 
-            self.rct.centerx -= 1
+            self.rct.centerx -= base_obj.x_size
         if key_states[pg.K_RIGHT] : 
-            self.rct.centerx += 1
+            self.rct.centerx += base_obj.x_size
         
         if check_bound(self.rct, base_obj.rct) != (1, 1): # 領域外だったら
-            if key_states[pg.K_UP]    == True: self.rct.centery += 1
-            if key_states[pg.K_DOWN]  == True: self.rct.centery -= 1
-            if key_states[pg.K_LEFT]  == True: self.rct.centerx += 1
-            if key_states[pg.K_RIGHT] == True: self.rct.centerx -= 1
+            if key_states[pg.K_UP]    == True: self.rct.centery += base_obj.y_size
+            if key_states[pg.K_DOWN]  == True: self.rct.centery -= base_obj.y_size
+            if key_states[pg.K_LEFT]  == True: self.rct.centerx += base_obj.x_size
+            if key_states[pg.K_RIGHT] == True: self.rct.centerx -= base_obj.x_size
         self.blit(base_obj)
         
 class Enemy(Bird):
@@ -101,23 +101,21 @@ class main: # mainをクラスに。
         clock = pg.time.Clock()
 
         scr = Screen("戦え！こうかとん", (1500, 900), "fig/pg_bg.jpg")
-        bird = Bird("fig/6.png", 1.5, (900, 400))
+        bird = Bird("fig/6.png", 1.5, (scr.x_size+scr.y_size//2, scr.y_size+scr.y_size//2))
         enemy = Enemy("fig/s_exp.png", 1.5, (50,50))
         
         while True:
-            scr.blit()
+            bird.blit(scr)
             for event in pg.event.get():
                 if event.type == pg.QUIT: 
                     return
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_SPACE: #Spaceキーを押したら
-                        bomb.append(AdvancedBomb((255, 0, 0), 10, (1, 1), scr)) # 爆弾を追加
-                    elif event.key == pg.K_r: # Rキーを押したら
-                        attack.append(BombAttack((0, 0, 255), 10, (-1, 0), scr, 1000, bird.rct.center, True)) #自分に当たらない爆弾を撃ち落とす爆弾を追加"""
-            bird.update(scr, scr.map_ary)
+                    if event.key == pg.K_DOWN or event.key == pg.K_UP or event.key == pg.K_LEFT or event.key==pg.K_RIGHT:
+                        bird.update(scr, scr.map_ary)
             enemy.update(scr, scr.map_ary)
             pg.display.update()
             clock.tick(1000)
+            scr.blit()
 
     def game_over(self, base_obj: Screen): #接触時に実行
         font = pg.font.Font(None, 80)
