@@ -51,8 +51,8 @@ class Block:
 
         pg.draw.rect(self.sfc, color, (0,0,self.x_size, self.y_size))
         self.rct = self.sfc.get_rect() 
-        self.rct.centerx = xy[0] * x_size - x_size/2
-        self.rct.centery = xy[1] * y_size - y_size/2
+        self.rct.centerx = xy[0] * x_size + x_size/2
+        self.rct.centery = xy[1] * y_size + y_size/2
 
     def blit(self, base_obj):
         base_obj.blit(self.sfc, self.rct)
@@ -101,8 +101,8 @@ class main: # mainをクラスに。
         clock = pg.time.Clock()
 
         scr = Screen("戦え！こうかとん", (1500, 900), "fig/pg_bg.jpg")
-        bird = Bird("fig/6.png", 2.0, (900, 400))
-        enemy = Enemy("fig/s_exp.png", 2.0, (50,50))
+        bird = Bird("fig/6.png", 1.5, (900, 400))
+        enemy = Enemy("fig/s_exp.png", 1.5, (50,50))
         
         while True:
             scr.blit()
